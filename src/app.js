@@ -2,9 +2,11 @@ const semver = require('semver');
 const log4js = require('log4js');
 const gitUtils = require('../src/git_utils.js');
 
+const logLevel = process.env.LOG_LEVEL || 'info';
+
 log4js.configure({
   appenders: { console: { type: 'console' } },
-  categories: { default: { appenders: ['console'], level: 'info' } },
+  categories: { default: { appenders: ['console'], level: logLevel } },
 });
 
 const logger = log4js.getLogger();

@@ -1,9 +1,14 @@
-name: 'Major Tag Releaser GitHub Action'
-description: 'Major Tag Releaser GitHub Action'
+name: 'Major Release Tagger GitHub Action'
+description: 'Major Release Tagger GitHub Action'
 author: hello@cloudposse.com
 branding:
   icon: 'file'
   color: 'white'
+inputs:
+  log-level:
+    description: "Log level for this action. Available options: ['off', 'fatal', 'error', 'warn', 'info', 'debug']. Default 'info'"
+    required: false
+    default: 'info'
 outputs:
   response:
     description: "Response"
@@ -38,6 +43,7 @@ runs:
       id: run_tagger
       run: |
         cd ${{ github.action_path }}
+        export LOG_LEVEL='${{ inputs.log-level }}'
         node index.js $GITHUB_WORKSPACE
 
     - name: Get the output
