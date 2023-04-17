@@ -5,9 +5,9 @@ branding:
   icon: 'file'
   color: 'white'
 outputs:
-  result:
-    description: "Result"
-    value: ${{ steps.affected.outputs.result }}
+  response:
+    description: "Response"
+    value: ${{ steps.run_tagger.outputs.response }}
 runs:
   using: "composite"
   steps:
@@ -27,8 +27,13 @@ runs:
         cd ${{ github.action_path }}
         npm install
 
-    - name: Run Release Branch Manager
+    - name: Run Major Release Tagger
       shell: bash
+      id: run_tagger
       run: |
         cd ${{ github.action_path }}
         node index.js $GITHUB_WORKSPACE
+
+    - name: Get the output
+      run: |
+        echo "The output is: ${{ steps.run_tagger.outputs.response }}"
