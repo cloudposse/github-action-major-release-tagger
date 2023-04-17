@@ -36,6 +36,14 @@ function createTag(repoPath, tag, sha, doPush = true) {
   }
 }
 
+function reTag(repoPath, tag, sha, doPush = true) {
+  execSync(`git tag -fa ${tag} ${sha} -m ""`, { cwd: repoPath });
+
+  if (doPush) {
+    execSync(`git push origin ${tag} --force`, { cwd: repoPath });
+  }
+}
+
 function deleteTag(repoPath, tag, doPush = true) {
   execSync(`git tag -d ${tag}`, { cwd: repoPath });
   if (doPush) {
@@ -81,6 +89,7 @@ module.exports = {
   createAndCommitFile,
   getLastCommitSHA,
   createTag,
+  reTag,
   getTagToSHAMapping,
   deleteTag,
   gitLog,

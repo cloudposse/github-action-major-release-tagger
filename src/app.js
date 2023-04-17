@@ -92,8 +92,7 @@ async function main(repoPath, doPush = true) {
           logger.info(`${tag} and v${major} points to the same SHA: ${majorTagSHA}. Skipping...`);
         } else {
           logger.info(`Latest tag '${tag} (${majorTagSHA})' and 'v${major} (${vTagSHA})' points different commits. Updating 'v${major}'.`);
-          gitUtils.deleteTag(repoPath, `v${major}`, doPush);
-          gitUtils.createTag(repoPath, `v${major}`, majorTagSHA, doPush);
+          gitUtils.reTag(repoPath, `v${major}`, majorTagSHA, doPush);
           vTagData.set(`v${major}`, new VTagData('updated', vTagSHA, majorTagSHA));
         }
       } else {
