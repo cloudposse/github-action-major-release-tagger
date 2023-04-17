@@ -99,6 +99,11 @@ Then when yet another new release gets created for examlpe with tag `2.1.0` and 
 
 <!-- markdownlint-disable -->
 
+## Inputs
+
+| Name | Description | Default | Required |
+|------|-------------|---------|----------|
+| log-level | Log level for this action. Available options: ['off', 'fatal', 'error', 'warn', 'info', 'debug']. Default 'info' | info | false |
 
 
 ## Outputs
