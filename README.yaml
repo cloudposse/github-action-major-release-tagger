@@ -30,44 +30,42 @@ related: []
 description: Major Release Tagger GitHub Action
 
 introduction: |-
-  This is template repository to create composite GitHub Actions. 
-  Feel free to use it as reference and starting point.
+  Creates or re-creates `v<major-release>` tags on new release.
 
-references:
-  - name: "github-actions-workflows"
-    description: "Reusable workflows for different types of projects"
-    url: "https://github.com/cloudposse/github-actions-workflows"
-  - name: "example-github-action-release-workflow"
-    description: "Example application with complicated release workflow"
-    url: "https://github.com/cloudposse/example-github-action-release-workflow"
+  For example new release gets creates with tag `2.0.0` which corresponds to SHA `1111111111111111111111111111111111111111` then this action will create new tag `v2` which also will point to the same SHA `1111111111111111111111111111111111111111`.
+
+  Then when yet another new release gets created for examlpe with tag `2.1.0` and SHA `2222222222222222222222222222222222222222` then this action will kick in and `re-map` tag `v2` to point to `2222222222222222222222222222222222222222`.
 
 # How to use this project
 usage: |-
   ```yaml
-    name: Pull Request
+    name: Major Release Tagger
+
     on:
-      pull_request:
-        branches: [ 'main' ]
-        types: [opened, synchronize, reopened, closed, labeled, unlabeled]
+      release:
+        types:
+          - published
 
     jobs:
-      context:
+      publish:
         runs-on: ubuntu-latest
         steps:
-          - name: Example action
-            uses: cloudposse/example-github-action-composite@main
-            id: example
-            with:
-              param1: true
-  
-        outputs:
-          result: ${{ steps.example.outputs.result1 }}
+          - uses: cloudposse/github-action-major-release-tagger@v1
   ```
+
+references:
+  - name: "Release Drafter GitHub Action"
+    description: 'Drafts your next release notes as pull requests are merged into your default branch.'
+    url: "https://github.com/release-drafter/release-drafter"
+  - name: "Release Branch Manager GitHub Action"
+    description: 'Automatically creates "Long Term Support (LTS)" release branches when new releases are published'
+    url: "https://en.wikipedia.org/wiki/Test_harness"
 
 include:
   - "docs/github-action.md"
 
-# Contributors to this project
 contributors:
-  - name: "Igor Rodionov"
-    github: "goruha"
+  - name: "Zinovii Dmytriv"
+    github: "zdmytriv"
+  - name: "Erik Osterman"
+    github: "osterman"
