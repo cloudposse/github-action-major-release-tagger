@@ -35,7 +35,7 @@ jobs:
       - uses: nick-fields/assert-action@v1
         with:
           expected: 'true'
-          actual: "${{ needs.test.outputs.response.succeeded }}"
+          actual: "${{ needs.test.outputs.response }}"
 
   teardown:
     runs-on: ubuntu-latest
