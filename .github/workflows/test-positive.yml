@@ -26,7 +26,7 @@ jobs:
         id: current
 
     outputs:
-      result: "${{ steps.current.outputs.response }}"
+      response: "${{ steps.current.outputs.response }}"
 
   assert:
     runs-on: ubuntu-latest
