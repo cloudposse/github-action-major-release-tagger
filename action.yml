@@ -21,6 +21,12 @@ runs:
       with:
         node-version: 16
 
+    - name: Setup Git Config
+      shell: bash
+      run: |
+        git config --global user.name 'actions-bot'
+        git config --global user.email 'actions-bot@users.noreply.github.com'
+
     - name: Install Node Dependencies
       shell: bash
       run: |
