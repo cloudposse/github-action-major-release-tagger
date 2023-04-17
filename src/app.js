@@ -79,7 +79,7 @@ async function main(repoPath, doPush = true) {
     logger.info(`Found ${latestSemVerTags.size} SemVer tags.`);
   }
 
-  const vTagData = new Map();
+  const vTagData = {};
 
   try {
     for (const [major, tag] of latestSemVerTags) {
@@ -93,19 +93,19 @@ async function main(repoPath, doPush = true) {
         } else {
           logger.info(`Latest tag '${tag} (${majorTagSHA})' and 'v${major} (${vTagSHA})' points different commits. Updating 'v${major}'.`);
           gitUtils.reTag(repoPath, `v${major}`, majorTagSHA, doPush);
-          vTagData.set(`v${major}`, new VTagData('updated', vTagSHA, majorTagSHA));
+          vTagData[`v${major}`] = new VTagData('updated', vTagSHA, majorTagSHA);
         }
       } else {
         logger.info(`V tag doesn't exist for '${tag}'. Creating a new 'v${major}' tag pointing to ${majorTagSHA}`);
         gitUtils.createTag(repoPath, `v${major}`, majorTagSHA, doPush);
-        vTagData.set(`v${major}`, new VTagData('created', '', majorTagSHA));
+        vTagData[`v${major}`] = new VTagData('created', '', majorTagSHA);
       }
     }
   } catch (e) {
     return new Response(false, RESPONSE_REASON.FAILED_TO_REMAP_TAG, e.message, vTagData);
   }
 
-  if (vTagData.size === 0) {
+  if (Object.keys(vTagData).length === 0) {
     return new Response(true, RESPONSE_REASON.NO_CHANGES, 'No changes were made', vTagData);
   } else {
     return new Response(true, RESPONSE_REASON.MAPPED_TAGS, 'Successfully created/update v-tags', vTagData);
