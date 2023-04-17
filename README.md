@@ -80,11 +80,16 @@ Then when yet another new release gets created for examlpe with tag `2.1.0` and 
       types:
         - published
 
+  permissions:
+    contents: write
+
   jobs:
     publish:
       runs-on: ubuntu-latest
       steps:
-        - uses: cloudposse/github-action-major-release-tagger@v1
+        - uses: cloudposse/github-action-major-release-tagger@initial
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 
