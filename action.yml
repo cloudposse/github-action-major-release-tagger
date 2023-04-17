@@ -35,5 +35,6 @@ runs:
         node index.js $GITHUB_WORKSPACE
 
     - name: Get the output
+      shell: bash
       run: |
         echo "The output is: ${{ steps.run_tagger.outputs.response }}"
