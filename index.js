@@ -9,11 +9,11 @@ log4js.configure({
 
 const logger = log4js.getLogger();
 
-main(process.argv[2], process.argv[3])
+main(process.argv[2])
   .then((response) => {
     if (response.succeeded) {
       logger.info(response.message);
-      core.setOutput(response, JSON.stringify(response));
+      core.setOutput('response', JSON.stringify(response));
     } else {
       logger.error(response.message);
       core.setFailed(response.message);

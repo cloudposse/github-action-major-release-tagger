@@ -1,23 +1,34 @@
-name: 'Example composite GitHub action'
-description: 'Example composite GitHub action'
+name: 'Major Tag Releaser GitHub Action'
+description: 'Major Tag Releaser GitHub Action'
 author: hello@cloudposse.com
 branding:
   icon: 'file'
   color: 'white'
-inputs:
-  param1:
-    required: true
-    description: "Input parameter placeholder"
-    default: "true"
 outputs:
-  result1:
-    description: "Output result placeholder"
-    value: "${{ steps.context.outputs.action-result }}"
+  result:
+    description: "Result"
+    value: ${{ steps.affected.outputs.result }}
 runs:
   using: "composite"
   steps:
-    - id: context
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    - name: Install Node Dependencies
       shell: bash
       run: |
-          echo "::set-output name=action-result::${{ inputs.param1 }}"
+        cd ${{ github.action_path }}
+        npm install
 
+    - name: Run Release Branch Manager
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        node index.js $GITHUB_WORKSPACE
