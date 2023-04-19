@@ -16,6 +16,13 @@ log4js.configure({
 });
 const logger = log4js.getLogger();
 
+function createRepoDir() {
+  const repoPath = `${TMP_DIR}/${uuidv4()}`;
+  logger.debug(`repoPath: ${repoPath}`);
+  fs.mkdirSync(repoPath);
+  return repoPath;
+}
+
 async function createFileAndCommit(gitWrapper, repoPath) {
   fs.writeFileSync(path.join(repoPath, uuidv4()), uuidv4());
   return await gitWrapper.commit();
@@ -23,10 +30,7 @@ async function createFileAndCommit(gitWrapper, repoPath) {
 
 test('repo has no tags', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -48,10 +52,7 @@ test('repo has no tags', async () => {
 
 test('repo has no semver tags', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -75,10 +76,7 @@ test('repo has no semver tags', async () => {
 
 test('repo has valid tag with corresponding vtag', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -101,10 +99,7 @@ test('repo has valid tag with corresponding vtag', async () => {
 
 test('created vtag for tag', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -127,10 +122,7 @@ test('created vtag for tag', async () => {
 
 test('multiple vtags missing', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -161,10 +153,7 @@ test('multiple vtags missing', async () => {
 
 test('vtag doesnt point to latest', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -190,10 +179,7 @@ test('vtag doesnt point to latest', async () => {
 
 test('vtag doesnt have corresponding semver tag', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
@@ -218,10 +204,7 @@ test('vtag doesnt have corresponding semver tag', async () => {
 
 test('semver tag in branch and in master', async () => {
   // prepare
-  const repoPath = `${TMP_DIR}/${uuidv4()}`;
-  logger.debug(`repoPath: ${repoPath}`);
-  fs.mkdirSync(repoPath);
-
+  const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
 
   await gitWrapper.initializeGitRepo();
