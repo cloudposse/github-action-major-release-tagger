@@ -6,15 +6,8 @@ class GitWrapper {
   }
 
   async getAllTags() {
-    return new Promise((resolve, reject) => {
-      this.git.raw(['tag', '--sort=-v:refname'], (error, tags) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(tags.trim().split('\n'));
-        }
-      });
-    });
+    const tags = await this.git.raw(['tag', '--sort=-v:refname']);
+    return tags.trim().split('\n');
   }
 
   async getSHAForTag(tag) {
