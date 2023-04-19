@@ -105,7 +105,7 @@ references:
     url: "https://github.com/release-drafter/release-drafter"
   - name: "Release Branch Manager GitHub Action"
     description: 'Automatically creates "Long Term Support (LTS)" release branches when new releases are published'
-    url: "https://en.wikipedia.org/wiki/Test_harness"
+    url: "https://github.com/cloudposse/github-action-release-branch-manager"
 
 include:
   - "docs/github-action.md"

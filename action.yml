@@ -44,12 +44,11 @@ runs:
       env:
         LOG_LEVEL: '${{ inputs.log-level }}'
         GITHUB_ACTION_PATH: '${{github.action_path}}'
-        WORKING_DIRECTORY: '${{GITHUB_WORKSPACE}}'
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
 
-          main()
+          main(${GITHUB_WORKSPACE})
             .then((response) => {
               if (response.succeeded) {
                 core.setOutput('response', JSON.stringify(response));

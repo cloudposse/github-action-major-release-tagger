@@ -169,7 +169,7 @@ Check out these related projects.
 For additional context, refer to some of these links.
 
 - [Release Drafter GitHub Action](https://github.com/release-drafter/release-drafter) - Drafts your next release notes as pull requests are merged into your default branch.
-- [Release Branch Manager GitHub Action](https://en.wikipedia.org/wiki/Test_harness) - Automatically creates "Long Term Support (LTS)" release branches when new releases are published
+- [Release Branch Manager GitHub Action](https://github.com/cloudposse/github-action-release-branch-manager) - Automatically creates "Long Term Support (LTS)" release branches when new releases are published
 
 
 ## Help
