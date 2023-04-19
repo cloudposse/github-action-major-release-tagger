@@ -54,7 +54,7 @@ runs:
         LOG_LEVEL: '${{ inputs.log-level }}'
       with:
         script: |
-          const { main } = require('./${{ github.action_path }}/src/app.js');
+          const { main } = require('./src/app.js');
 
           const REPO_PATH = process.env.GITHUB_WORKSPACE;
           console.log(`Repo Path: ${REPO_PATH}`);
