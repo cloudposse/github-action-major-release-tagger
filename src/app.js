@@ -1,6 +1,6 @@
 const semver = require('semver');
 const log4js = require('log4js');
-const gitUtils = require('../src/git_utils.js');
+const GitWrapper = require('./git_wrapper.js');
 
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 
@@ -61,7 +61,9 @@ function getVTags(tags) {
 }
 
 async function main(repoPath, doPush = true) {
-  const allTags = gitUtils.getAllTags(repoPath);
+  const gitWrapper = new GitWrapper(repoPath);
+
+  const allTags = await gitWrapper.getAllTags();
   logger.debug(`All available tags:\n${allTags.join('\n')}`);
 
   const latestSemVerTags = getLatestSemVerTags(allTags);
@@ -70,7 +72,7 @@ async function main(repoPath, doPush = true) {
   const vTags = getVTags(allTags);
   logger.info(`V tags:\n${Array.from(vTags).join('\n')}`);
 
-  const shas = gitUtils.getTagToSHAMapping(repoPath, Array.from(latestSemVerTags.values()).concat(Array.from(vTags)));
+  const shas = await gitWrapper.getTagToSHAMapping(Array.from(latestSemVerTags.values()).concat(Array.from(vTags)));
   logger.info(`SHAs:\n${Array.from(shas.entries()).map(([key, value]) => `${key}: ${value}`).join('\n')}`);
 
   if (latestSemVerTags.size === 0) {
@@ -91,13 +93,13 @@ async function main(repoPath, doPush = true) {
         if (majorTagSHA === vTagSHA) {
           logger.info(`${tag} and v${major} points to the same SHA: ${majorTagSHA}. Skipping...`);
         } else {
-          logger.info(`Latest tag '${tag} (${majorTagSHA})' and 'v${major} (${vTagSHA})' points different commits. Updating 'v${major}'.`);
-          gitUtils.reTag(repoPath, `v${major}`, majorTagSHA, doPush);
+          logger.info(`Latest tag '${tag} (${majorTagSHA})' and 'v${major} (${vTagSHA})' points to different commits. Updating 'v${major}'.`);
+          gitWrapper.reTag(`v${major}`, majorTagSHA, doPush);
           vTagData[`v${major}`] = new VTagData('updated', vTagSHA, majorTagSHA);
         }
       } else {
         logger.info(`V tag doesn't exist for '${tag}'. Creating a new 'v${major}' tag pointing to ${majorTagSHA}`);
-        gitUtils.createTag(repoPath, `v${major}`, majorTagSHA, doPush);
+        gitWrapper.createTag(`v${major}`, majorTagSHA, doPush);
         vTagData[`v${major}`] = new VTagData('created', '', majorTagSHA);
       }
     }

@@ -38,32 +38,18 @@ runs:
         cd ${{ github.action_path }}
         npm install
 
-    # - name: Run Major Release Tagger
-    #   shell: bash
-    #   id: run_tagger
-    #   env:
-    #     LOG_LEVEL: '${{ inputs.log-level }}'
-    #   run: |
-    #     cd ${{ github.action_path }}
-    #     node ./${{ github.action_path }}/index.js $GITHUB_WORKSPACE
-
     - name: Run Major Release Tagger
       uses: actions/github-script@v6
       id: run_tagger
       env:
         LOG_LEVEL: '${{ inputs.log-level }}'
-        ACTION_PATH: '${{github.action_path}}'
+        GITHUB_ACTION_PATH: '${{github.action_path}}'
+        WORKING_DIRECTORY: '${{GITHUB_WORKSPACE}}'
       with:
         script: |
-          const REPO_PATH = process.env.GITHUB_WORKSPACE;
-          const ACTION_PATH = process.env.ACTION_PATH;
+          const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
 
-          console.log(`Repo Path: ${REPO_PATH}`);
-          console.log(`Action Path: ${ACTION_PATH}`);
-
-          const { main } = require(ACTION_PATH + '/src/app.js');
-
-          main(REPO_PATH)
+          main()
             .then((response) => {
               if (response.succeeded) {
                 core.setOutput('response', JSON.stringify(response));
