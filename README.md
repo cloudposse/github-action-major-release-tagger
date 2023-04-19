@@ -82,7 +82,7 @@ By simply incorporating Major Release Tagger, your repo will be enriched with th
 3.0.0    v3
 ```
 
-When you create a new release tagged `3.1.0``, the `v3`` tag will automatically point to it:
+When you create a new release tagged `3.1.0`, the `v3` tag will automatically point to it:
 
 ```
 1.0.0
