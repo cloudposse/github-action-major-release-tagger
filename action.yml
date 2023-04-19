@@ -47,8 +47,10 @@ runs:
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
+          console.log(${GITHUB_WORKSPACE});
+          console.log('${GITHUB_WORKSPACE}');
 
-          main(${GITHUB_WORKSPACE})
+          main('${GITHUB_WORKSPACE}')
             .then((response) => {
               if (response.succeeded) {
                 core.setOutput('response', JSON.stringify(response));
