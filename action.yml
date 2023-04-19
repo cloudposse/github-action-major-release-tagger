@@ -44,13 +44,12 @@ runs:
       env:
         LOG_LEVEL: '${{ inputs.log-level }}'
         GITHUB_ACTION_PATH: '${{github.action_path}}'
+        WORKING_DIRECTORY: '${{ github.workspace }}'
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
-          console.log(${GITHUB_WORKSPACE});
-          console.log('${GITHUB_WORKSPACE}');
 
-          main('${GITHUB_WORKSPACE}')
+          main(process.env.WORKING_DIRECTORY)
             .then((response) => {
               if (response.succeeded) {
                 core.setOutput('response', JSON.stringify(response));
