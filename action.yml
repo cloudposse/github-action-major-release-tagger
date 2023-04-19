@@ -34,9 +34,8 @@ runs:
 
     - name: Install Node Dependencies
       shell: bash
-      run: |
-        cd ${{ github.action_path }}
-        npm install
+      working-directory: ${{ github.action_path }}
+      run: npm install
 
     - name: Run Major Release Tagger
       uses: actions/github-script@v6
