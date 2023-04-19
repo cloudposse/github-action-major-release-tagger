@@ -52,14 +52,16 @@ runs:
       id: run_tagger
       env:
         LOG_LEVEL: '${{ inputs.log-level }}'
+        ACTION_PATH: '${{github.action_path}}'
       with:
         script: |
           const REPO_PATH = process.env.GITHUB_WORKSPACE;
-          console.log(`Repo Path: ${REPO_PATH}`);
-          console.log(`Action Path: ${{github.action_path}}`);
-          const { main } = require(${{github.action_path}} + '/src/app.js');
+          const ACTION_PATH = process.env.ACTION_PATH;
 
           console.log(`Repo Path: ${REPO_PATH}`);
+          console.log(`Action Path: ${ACTION_PATH}`);
+
+          const { main } = require(ACTION_PATH + '/src/app.js');
 
           main(REPO_PATH)
             .then((response) => {
