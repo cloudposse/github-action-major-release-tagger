@@ -34,19 +34,29 @@ runs:
 
     - name: Install Node Dependencies
       shell: bash
+      working-directory: ${{ github.action_path }}
       run: |
-        cd ${{ github.action_path }}
         npm install
 
     - name: Run Major Release Tagger
-      shell: bash
+      uses: actions/github-script@v6
       id: run_tagger
-      run: |
-        cd ${{ github.action_path }}
-        export LOG_LEVEL='${{ inputs.log-level }}'
-        node index.js $GITHUB_WORKSPACE
+      working-directory: ${{ github.action_path }}
+      env:
+        LOG_LEVEL: '${{ inputs.log-level }}'
+      with:
+        script: |
+          const core = require('@actions/core');
+          const { main } = require('./src/app.js');
 
-    - name: Get the output
-      shell: bash
-      run: |
-        echo "${{ steps.run_tagger.outputs.response }}"
+          main('${{ GITHUB_WORKSPACE }}')
+            .then((response) => {
+              if (response.succeeded) {
+                core.setOutput('response', JSON.stringify(response));
+              } else {
+                core.setFailed(response.message);
+              }
+            })
+            .catch((error) => {
+              core.setFailed(error);
+            });

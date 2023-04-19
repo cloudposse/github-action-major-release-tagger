@@ -24,7 +24,16 @@ badges:
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
 
-related: []
+related:
+  - name: "Manage Release Branches GitHub Action"
+    description: 'GitHub Action that creates release branches on new major version update.'
+    url: "https://github.com/cloudposse/github-action-release-branch-manager"
+  - name: "Release Label Validator GitHub Action"
+    description: 'Verifies labels that are set on Pull Request'
+    url: "https://github.com/cloudposse/github-action-release-label-validator"
+  - name: "Release Drafter GitHub Action"
+    description: 'Drafts your next release notes as pull requests are merged into your default branch.'
+    url: "https://github.com/release-drafter/release-drafter"
 
 # Short description of this project
 description: Major Release Tagger GitHub Action
@@ -53,7 +62,7 @@ usage: |-
       publish:
         runs-on: ubuntu-latest
         steps:
-          - uses: cloudposse/github-action-major-release-tagger@initial
+          - uses: cloudposse/github-action-major-release-tagger@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   ```

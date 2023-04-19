@@ -87,7 +87,7 @@ Then when yet another new release gets created for examlpe with tag `2.1.0` and 
     publish:
       runs-on: ubuntu-latest
       steps:
-        - uses: cloudposse/github-action-major-release-tagger@initial
+        - uses: cloudposse/github-action-major-release-tagger@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -127,6 +127,9 @@ Are you using this project or any of our other projects? Consider [leaving a tes
 
 Check out these related projects.
 
+- [Manage Release Branches GitHub Action](https://github.com/cloudposse/github-action-release-branch-manager) - GitHub Action that creates release branches on new major version update.
+- [Release Label Validator GitHub Action](https://github.com/cloudposse/github-action-release-label-validator) - Verifies labels that are set on Pull Request
+- [Release Drafter GitHub Action](https://github.com/release-drafter/release-drafter) - Drafts your next release notes as pull requests are merged into your default branch.
 
 
 ## References
