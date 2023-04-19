@@ -47,7 +47,7 @@ class GitWrapper {
     return commitResult.commit;
   }
 
-  async pushToRemote(branchOrTag, flag = '') {
+  async pushToRemote(branchOrTag, flag = '--verbose') {
     await this.git.push('origin', branchOrTag, [flag]);
   }
 
@@ -63,7 +63,7 @@ class GitWrapper {
     await this.git.tag(['--force', tag, sha]);
 
     if (doPush) {
-      await this.pushToRemote(tag, '--force');
+      await this.pushToRemote(tag, '--verbose --force');
     }
   }
 
@@ -71,7 +71,7 @@ class GitWrapper {
     await this.git.tag({ d: true }, tag, sha);
 
     if (doPush) {
-      await this.pushToRemote(tag, '--delete');
+      await this.pushToRemote(tag, '--verbose --delete');
     }
   }
 
