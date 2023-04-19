@@ -38,11 +38,36 @@ runs:
         cd ${{ github.action_path }}
         npm install
 
+    # - name: Run Major Release Tagger
+    #   shell: bash
+    #   id: run_tagger
+    #   env:
+    #     LOG_LEVEL: '${{ inputs.log-level }}'
+    #   run: |
+    #     cd ${{ github.action_path }}
+    #     node ./${{ github.action_path }}/index.js $GITHUB_WORKSPACE
+
     - name: Run Major Release Tagger
-      shell: bash
+      uses: actions/github-script@v6
       id: run_tagger
       env:
         LOG_LEVEL: '${{ inputs.log-level }}'
-      run: |
-        cd ${{ github.action_path }}
-        node index.js $GITHUB_WORKSPACE
+      with:
+        script: |
+          const core = require('@actions/core');
+          const { main } = require('./${{ github.action_path }}/src/app.js');
+
+          const REPO_PATH = process.env.GITHUB_WORKSPACE;
+          console.log(`Repo Path: ${REPO_PATH}`);
+
+          main(REPO_PATH)
+            .then((response) => {
+              if (response.succeeded) {
+                core.setOutput('response', JSON.stringify(response));
+              } else {
+                core.setFailed(response.message);
+              }
+            })
+            .catch((error) => {
+              core.setFailed(error);
+            });

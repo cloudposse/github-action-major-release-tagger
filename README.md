@@ -28,7 +28,7 @@
 
 -->
 
-Major Release Tagger GitHub Action
+GitHub Action that automatically generates or updates `v<major-release>` tags every time a new release is published.
 
 ---
 
@@ -58,11 +58,43 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 ## Introduction
 
-Creates or re-creates `v<major-release>` tags on new release.
+This GitHub Action automatically generates or updates `v<major-release>` tags every time a new release is published, making it effortless to keep track of your project's major versions.
 
-For example new release gets creates with tag `2.0.0` which corresponds to SHA `1111111111111111111111111111111111111111` then this action will create new tag `v2` which also will point to the same SHA `1111111111111111111111111111111111111111`.
+Imagine your Git repository has the following tags:
 
-Then when yet another new release gets created for examlpe with tag `2.1.0` and SHA `2222222222222222222222222222222222222222` then this action will kick in and `re-map` tag `v2` to point to `2222222222222222222222222222222222222222`.
+```
+1.0.0
+1.1.0
+2.0.0
+2.0.1
+2.1.0
+3.0.0
+```
+
+By simply incorporating Major Release Tagger, your repo will be enriched with the corresponding v-tags:
+
+```
+1.0.0
+1.1.0    v1
+2.0.0
+2.0.1    v2
+2.1.0
+3.0.0    v3
+```
+
+When you create a new release tagged `3.1.0``, the `v3`` tag will automatically point to it:
+
+```
+1.0.0
+1.1.0    v1
+2.0.0
+2.0.1    v2
+2.1.0
+3.0.0
+3.1.0    v3
+```
+
+Stay organized and efficient with Major Release Tagger - the ultimate GitHub Action to streamline your versioning process.
 
 
 
