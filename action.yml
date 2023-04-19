@@ -1,23 +1,61 @@
-name: 'Example composite GitHub action'
-description: 'Example composite GitHub action'
+name: "Major Release Tagger GitHub Action"
+description: "Major Release Tagger GitHub Action"
 author: hello@cloudposse.com
 branding:
-  icon: 'file'
-  color: 'white'
+  icon: "file"
+  color: "white"
 inputs:
-  param1:
-    required: true
-    description: "Input parameter placeholder"
-    default: "true"
+  log-level:
+    description: "Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info'"
+    required: false
+    default: "info"
 outputs:
-  result1:
-    description: "Output result placeholder"
-    value: "${{ steps.context.outputs.action-result }}"
+  response:
+    description: 'Response in json format for example: {"succeeded":true,"reason":"MAPPED_TAGS","message":"Successfully created/update v-tags.","data":{"v1": {"state":"updated", "oldSHA": "d9b3a3034766ac20294fd1c36cacc017ae4a3898", "newSHA":"e5c6309b473934cfe3e556013781b8757c1e0422"}, "v2": {"state":"created", "oldSHA": "bbf9f924752c61dcef084757bcf4440e23f2e16b", "newSHA":"5ae37ee514b73cf8146fe389ad839469e7f3a6d2"}}}'
+    value: ${{ steps.run_tagger.outputs.response }}
 runs:
   using: "composite"
   steps:
-    - id: context
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    - name: Setup Git Config
       shell: bash
       run: |
-          echo "::set-output name=action-result::${{ inputs.param1 }}"
+        git config --global user.name 'actions-bot'
+        git config --global user.email 'actions-bot@users.noreply.github.com'
 
+    - name: Install Node Dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm install
+
+    - name: Run Major Release Tagger
+      uses: actions/github-script@v6
+      id: run_tagger
+      env:
+        LOG_LEVEL: '${{ inputs.log-level }}'
+        GITHUB_ACTION_PATH: '${{github.action_path}}'
+        WORKING_DIRECTORY: '${{ github.workspace }}'
+      with:
+        script: |
+          const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
+
+          main(process.env.WORKING_DIRECTORY)
+            .then((response) => {
+              if (response.succeeded) {
+                core.setOutput('response', JSON.stringify(response));
+              } else {
+                core.setFailed(response.message);
+              }
+            })
+            .catch((error) => {
+              core.setFailed(error);
+            });
