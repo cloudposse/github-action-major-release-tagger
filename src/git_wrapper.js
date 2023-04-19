@@ -48,7 +48,7 @@ class GitWrapper {
   }
 
   async pushToRemote(branchOrTag, flag = '') {
-    await this.git.push([flag, 'origin', branchOrTag]);
+    await this.git.push('origin', branchOrTag, [flag]);
   }
 
   async createTag(tag, sha, doPush = true) {
