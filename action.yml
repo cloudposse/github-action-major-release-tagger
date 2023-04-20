@@ -61,7 +61,9 @@ runs:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
 
-          main(process.env.WORKING_DIRECTORY, !Boolean(process.env.DRY_RUN))
+          const dryRun = JSON.parse(process.env.DRY_RUN);
+
+          main(process.env.WORKING_DIRECTORY, !dryRun)
             .then((response) => {
               if (response.succeeded) {
                 core.setOutput('response', JSON.stringify(response));
