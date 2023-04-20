@@ -9,6 +9,18 @@ inputs:
     description: "Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info'"
     required: false
     default: "info"
+  git-user-name:
+    description: "Git user name that will be used for git config"
+    required: false
+    default: "actions-bot"
+  git-user-email:
+    description: "Git user email that will be used for git config"
+    required: false
+    default: "actions-bot@users.noreply.github.com"
+  dry-run:
+    description: "Run action without pushing changes to upstream"
+    required: false
+    default: "false"
 outputs:
   response:
     description: 'Response in json format for example: {"succeeded":true,"reason":"MAPPED_TAGS","message":"Successfully created/update v-tags.","data":{"v1": {"state":"updated", "oldSHA": "d9b3a3034766ac20294fd1c36cacc017ae4a3898", "newSHA":"e5c6309b473934cfe3e556013781b8757c1e0422"}, "v2": {"state":"created", "oldSHA": "bbf9f924752c61dcef084757bcf4440e23f2e16b", "newSHA":"5ae37ee514b73cf8146fe389ad839469e7f3a6d2"}}}'
@@ -29,8 +41,8 @@ runs:
     - name: Setup Git Config
       shell: bash
       run: |
-        git config --global user.name 'actions-bot'
-        git config --global user.email 'actions-bot@users.noreply.github.com'
+        git config --global user.name '${{ inputs.git-user-name }}'
+        git config --global user.email '${{ inputs.git-user-email }}'
 
     - name: Install Node Dependencies
       shell: bash
@@ -44,11 +56,12 @@ runs:
         LOG_LEVEL: '${{ inputs.log-level }}'
         GITHUB_ACTION_PATH: '${{github.action_path}}'
         WORKING_DIRECTORY: '${{ github.workspace }}'
+        DRY_RUN: '${{ inputs.dry-run }}'
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
 
-          main(process.env.WORKING_DIRECTORY)
+          main(process.env.WORKING_DIRECTORY, !Boolean(process.env.DRY_RUN))
             .then((response) => {
               if (response.succeeded) {
                 core.setOutput('response', JSON.stringify(response));

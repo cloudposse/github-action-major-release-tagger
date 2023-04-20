@@ -135,6 +135,9 @@ Stay organized and efficient with Major Release Tagger - the ultimate GitHub Act
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
+| dry-run | Run action without pushing changes to upstream | false | false |
+| git-user-email | Git user email that will be used for git config | actions-bot@users.noreply.github.com | false |
+| git-user-name | Git user name that will be used for git config | actions-bot | false |
 | log-level | Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info' | info | false |
 
 
