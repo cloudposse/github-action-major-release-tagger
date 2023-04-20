@@ -82,7 +82,7 @@ By simply incorporating Major Release Tagger, your repo will be enriched with th
 3.0.0    v3
 ```
 
-When you create a new release tagged `3.1.0``, the `v3`` tag will automatically point to it:
+When you create a new release tagged `3.1.0`, the `v3` tag will automatically point to it:
 
 ```
 1.0.0
@@ -112,16 +112,11 @@ Stay organized and efficient with Major Release Tagger - the ultimate GitHub Act
       types:
         - published
 
-  permissions:
-    contents: write
-
   jobs:
     publish:
       runs-on: ubuntu-latest
       steps:
         - uses: cloudposse/github-action-major-release-tagger@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 
@@ -135,6 +130,9 @@ Stay organized and efficient with Major Release Tagger - the ultimate GitHub Act
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
+| dry-run | Run action without pushing changes to upstream | false | false |
+| git-user-email | Git user email that will be used for git config | actions-bot@users.noreply.github.com | false |
+| git-user-name | Git user name that will be used for git config | actions-bot | false |
 | log-level | Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info' | info | false |
 
 

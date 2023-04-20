@@ -56,7 +56,7 @@ class GitWrapper {
     await this.git.tag(['--force', tag, sha]);
 
     if (doPush) {
-      await this.pushToRemote(tag, '--verbose --force');
+      await this.pushToRemote(tag, '--force');
     }
   }
 
@@ -64,7 +64,7 @@ class GitWrapper {
     await this.git.tag({ d: true }, tag, sha);
 
     if (doPush) {
-      await this.pushToRemote(tag, '--verbose --delete');
+      await this.pushToRemote(tag, '--delete');
     }
   }
 
