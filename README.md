@@ -112,16 +112,11 @@ Stay organized and efficient with Major Release Tagger - the ultimate GitHub Act
       types:
         - published
 
-  permissions:
-    contents: write
-
   jobs:
     publish:
       runs-on: ubuntu-latest
       steps:
         - uses: cloudposse/github-action-major-release-tagger@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 
