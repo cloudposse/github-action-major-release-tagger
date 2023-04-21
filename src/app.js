@@ -1,15 +1,6 @@
 const semver = require('semver');
-const log4js = require('log4js');
+const { logger } = require('./utils.js');
 const GitWrapper = require('./git_wrapper.js');
-
-const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
-
-log4js.configure({
-  appenders: { console: { type: 'console' } },
-  categories: { default: { appenders: ['console'], level: LOG_LEVEL } },
-});
-
-const logger = log4js.getLogger();
 
 const RESPONSE_REASON = {
   NO_SEMVER_TAGS_FOUND: 'NO_SEMVER_TAGS_FOUND',
