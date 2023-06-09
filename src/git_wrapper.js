@@ -6,7 +6,7 @@ class GitWrapper {
   }
 
   async getAllTags() {
-    const tags = await this.git.raw(['tag', '--sort=-creatordate']);
+    const tags = await this.git.raw(['tag', '--sort=-v:refname']);
     return tags.trim().split('\n');
   }
 

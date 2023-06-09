@@ -34,13 +34,33 @@ function getLatestSemVerTags(tags) {
   const latestTags = new Map();
 
   for (const tag of tags) {
-    if (isSemver(tag)) {
-      const major = semver.major(tag);
-      const key = `${major}`;
+    if (!isSemver(tag)) {
+      continue;
+    }
 
-      if (!latestTags.has(key)) {
-        latestTags.set(key, tag);
-      }
+    const currentMajor = semver.major(tag);
+    const currentMinor = semver.minor(tag);
+    const currentPatch = semver.patch(tag);
+
+    const key = `${currentMajor}`;
+
+    if (!latestTags.has(key)) {
+      latestTags.set(key, tag);
+      continue;
+    }
+
+    const latestTag = latestTags.get(key);
+
+    const latestMinor = semver.minor(latestTag);
+    const latestPatch = semver.patch(latestTag);
+
+    if (currentMinor > latestMinor) {
+      latestTags.set(key, tag);
+      continue;
+    }
+
+    if (currentMinor === latestMinor && currentPatch > latestPatch) {
+      latestTags.set(key, tag);
     }
   }
 
