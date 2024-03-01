@@ -5,6 +5,10 @@ branding:
   icon: "file"
   color: "white"
 inputs:
+  token:
+    description: "GitHub token"
+    required: true
+    default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
   log-level:
     description: "Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info'"
     required: false
@@ -32,11 +36,13 @@ runs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+        token: '${{ inputs.token }}'
 
     - name: Setup Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 16
+        node-version: 20
+        token: '${{ inputs.token }}'
 
     - name: Setup Git Config
       shell: bash
@@ -57,6 +63,7 @@ runs:
         GITHUB_ACTION_PATH: '${{github.action_path}}'
         WORKING_DIRECTORY: '${{ github.workspace }}'
         DRY_RUN: '${{ inputs.dry-run }}'
+        GITHUB_TOKEN: '${{inputs.token}}'
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
