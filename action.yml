@@ -5,10 +5,18 @@ branding:
   icon: "file"
   color: "white"
 inputs:
+  token:
+    description: "GitHub token"
+    required: true
+    default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
   log-level:
     description: "Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info'"
     required: false
     default: "info"
+  node-env:
+    description: "Node environment. Default 'production'"
+    required: false
+    default: "production"
   git-user-name:
     description: "Git user name that will be used for git config"
     required: false
@@ -29,14 +37,16 @@ runs:
   using: "composite"
   steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        token: '${{ inputs.token }}'
 
     - name: Setup Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 16
+        node-version: 20
+        token: '${{ inputs.token }}'
 
     - name: Setup Git Config
       shell: bash
@@ -57,6 +67,8 @@ runs:
         GITHUB_ACTION_PATH: '${{github.action_path}}'
         WORKING_DIRECTORY: '${{ github.workspace }}'
         DRY_RUN: '${{ inputs.dry-run }}'
+        GITHUB_TOKEN: '${{inputs.token}}'
+        NODE_ENV: '${{ inputs.node-env }}'
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
