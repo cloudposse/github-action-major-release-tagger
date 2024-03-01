@@ -13,6 +13,10 @@ inputs:
     description: "Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info'"
     required: false
     default: "info"
+  node-env:
+    description: "Node environment. Default 'production'"
+    required: false
+    default: "production"
   git-user-name:
     description: "Git user name that will be used for git config"
     required: false
@@ -64,6 +68,7 @@ runs:
         WORKING_DIRECTORY: '${{ github.workspace }}'
         DRY_RUN: '${{ inputs.dry-run }}'
         GITHUB_TOKEN: '${{inputs.token}}'
+        NODE_ENV: '${{ inputs.node-env }}'
       with:
         script: |
           const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');

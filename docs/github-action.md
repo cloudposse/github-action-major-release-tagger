@@ -8,6 +8,8 @@
 | git-user-email | Git user email that will be used for git config | actions-bot@users.noreply.github.com | false |
 | git-user-name | Git user name that will be used for git config | actions-bot | false |
 | log-level | Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info' | info | false |
+| node-env | Node environment. Default 'production' | production | false |
+| token | GitHub token | ${{ github.server\_url == 'https://github.com' && github.token \|\| '' }} | true |
 
 
 ## Outputs
