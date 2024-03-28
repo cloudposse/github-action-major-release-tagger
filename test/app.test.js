@@ -228,7 +228,11 @@ test('semver tag in branch and in master', async () => {
 
   // verify
   logger.debug(`State of repo:\n${await gitWrapper.getCurrentStateOfRepo()}`);
-  logger.debug(`State of repo:\n${await gitWrapper.getCurrentStateOfRepo('release/v0')}`);
   shas = await gitWrapper.getTagToSHAMapping(await gitWrapper.getAllTags());
   logger.debug(`SHAs:\n${Array.from(shas.entries()).map(([key, value]) => `${key}: ${value}`).join('\n')}`);
+
+  assert.strictEqual(response.succeeded, true);
+  assert.strictEqual(response.reason, RESPONSE_REASON.MAPPED_TAGS);
+  assert.strictEqual(sha4, await gitWrapper.getSHAForTag('v1'));
+  assert.strictEqual(sha5, await gitWrapper.getSHAForTag('v2'));
 });
