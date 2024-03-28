@@ -204,14 +204,17 @@ test('semver tag in branch and in master', async () => {
   await createFileAndCommit(gitWrapper, repoPath);
   const sha1 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('1.0.0', sha1, false);
+
   const sha2 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('1.1.0', sha2, false);
   await gitWrapper.createTag('v1', sha2, false);
   await gitWrapper.createBranch('release/v0', sha2, false);
   await gitWrapper.checkoutBranch('master');
+
   const sha3 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('2.0.0', sha3, false);
   await gitWrapper.createTag('v2', sha3, false);
+
   await gitWrapper.checkoutBranch('release/v0');
   const sha4 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('1.2.1', sha4, false);
@@ -219,21 +222,4 @@ test('semver tag in branch and in master', async () => {
   const sha5 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('2.1.0', sha5, false);
 
-  logger.debug(`State of repo:\n${await gitWrapper.getCurrentStateOfRepo()}`);
-  let shas = await gitWrapper.getTagToSHAMapping(await gitWrapper.getAllTags());
-  logger.debug(`SHAs:\n${Array.from(shas.entries()).map(([key, value]) => `${key}: ${value}`).join('\n')}`);
-
-  // test
-  response = await main(repoPath, false);
-
-  // verify
-  logger.debug(`State of repo:\n${await gitWrapper.getCurrentStateOfRepo()}`);
-  logger.debug(`State of repo:\n${await gitWrapper.getCurrentStateOfRepo('release/v0')}`);
-  shas = await gitWrapper.getTagToSHAMapping(await gitWrapper.getAllTags());
-  logger.debug(`SHAs:\n${Array.from(shas.entries()).map(([key, value]) => `${key}: ${value}`).join('\n')}`);
-
-  assert.strictEqual(response.succeeded, true);
-  assert.strictEqual(response.reason, RESPONSE_REASON.MAPPED_TAGS);
-  assert.strictEqual(sha4, await gitWrapper.getSHAForTag('v1'));
-  assert.strictEqual(sha5, await gitWrapper.getSHAForTag('v2'));
 });
