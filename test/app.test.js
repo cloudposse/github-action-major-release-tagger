@@ -221,5 +221,4 @@ test('semver tag in branch and in master', async () => {
   await gitWrapper.checkoutBranch('master');
   const sha5 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('2.1.0', sha5, false);
-
 });
