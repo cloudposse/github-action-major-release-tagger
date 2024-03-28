@@ -220,8 +220,9 @@ test('semver tag in branch and in master', async () => {
   await gitWrapper.createTag('2.1.0', sha5, false);
 
   logger.debug(`State of repo:\n${await gitWrapper.getCurrentStateOfRepo()}`);
+  let shas = await gitWrapper.getTagToSHAMapping(await gitWrapper.getAllTags());
   logger.debug(`SHAs:\n${Array.from(shas.entries()).map(([key, value]) => `${key}: ${value}`).join('\n')}`);
 
   // test
-  response = await main(repoPath, false);
+  await main(repoPath, false);
 });
