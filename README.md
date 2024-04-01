@@ -134,6 +134,7 @@ Stay organized and efficient with Major Release Tagger - the ultimate GitHub Act
 | git-user-email | Git user email that will be used for git config | actions-bot@users.noreply.github.com | false |
 | git-user-name | Git user name that will be used for git config | actions-bot | false |
 | log-level | Log level for this action. Available options: ['off', 'error', 'warn', 'info', 'debug']. Default 'info' | info | false |
+| token | Standard GitHub token (e.g., secrets.GITHUB\_TOKEN) | ${{ github.token }} | false |
 
 
 ## Outputs
@@ -241,7 +242,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyright
 
-Copyright © 2017-2023 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2024 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 
