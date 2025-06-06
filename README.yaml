@@ -1,4 +1,3 @@
----
 #
 # This is the canonical configuration for the `README.md`
 # Run `make readme` to rebuild the `README.md`
@@ -17,13 +16,17 @@ github_repo: cloudposse/github-action-major-release-tagger
 
 # Badges to display
 badges:
-  - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse/github-action-major-release-tagger.svg"
-    url: "https://github.com/cloudposse/github-action-major-release-tagger/releases/latest"
-  - name: "Slack Community"
-    image: "https://slack.cloudposse.com/badge.svg"
-    url: "https://slack.cloudposse.com"
+  - name: Latest Release
+    image: https://img.shields.io/github/release/cloudposse/github-action-major-release-tagger.svg?style=for-the-badge
+    url: https://github.com/cloudposse/github-action-major-release-tagger/releases/latest
+  - name: Last Updated
+    image: https://img.shields.io/github/last-commit/cloudposse/github-action-major-release-tagger.svg?style=for-the-badge
+    url: https://github.com/cloudposse/github-action-major-release-tagger/commits
+  - name: Slack Community
+    image: https://slack.cloudposse.com/for-the-badge.svg
+    url: https://cloudposse.com/slack
 
+# List any related terraform modules that this module may be used with or that this module depends on.
 related:
   - name: "Manage Release Branches GitHub Action"
     description: 'GitHub Action that creates release branches on new major version update.'
@@ -51,7 +54,7 @@ introduction: |-
   2.1.0
   3.0.0
   ```
-  
+
   By simply incorporating Major Release Tagger, your repo will be enriched with the corresponding v-tags:
 
   ```
@@ -64,7 +67,7 @@ introduction: |-
   ```
 
   When you create a new release tagged `3.1.0`, the `v3` tag will automatically point to it:
-  
+
   ```
   1.0.0
   1.1.0    v1
@@ -102,11 +105,5 @@ references:
     description: 'Automatically creates "Long Term Support (LTS)" release branches when new releases are published'
     url: "https://github.com/cloudposse/github-action-release-branch-manager"
 
-include:
-  - "docs/github-action.md"
-
-contributors:
-  - name: "Zinovii Dmytriv"
-    github: "zdmytriv"
-  - name: "Erik Osterman"
-    github: "osterman"
+include: []
+contributors: []
